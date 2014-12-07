@@ -1,0 +1,23 @@
+{
+  "name": "github_api_browser",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ericdfields/github_api_browser",
+  "authors": [
+    "Eric D. Fields <ericdfields@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "bootstrap-sass": "~3.0.2",
+    "jquery": "~2.1.1"
+  }
+}

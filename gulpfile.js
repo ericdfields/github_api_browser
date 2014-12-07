@@ -1,25 +1,50 @@
-var gulp, sass, sourcemaps;
+var gulp, sass, sourcemaps, bower, browserSync, uglify;
 
-gulp = require('gulp');
-sass = require('gulp-sass');
+gulp       = require('gulp');
+sass       = require('gulp-sass');
 sourcemaps = require('gulp-sourcemaps');
+browserSync = require('browser-sync');
+uglify = require('gulp-uglify');
+
+var reload = browserSync.reload;
 
 var paths = {
-  scripts: 'assets/javascripts/**/*.coffee',
-  css: 'assets/stylesheets/**/*.sass',
-  images: 'client/images/**/*'
+  views: './assets/views/**/*.html',
+  scripts: './assets/scripts/**/*.js',
+  styles: './assets/stylesheets/**/*.sass'
 };
 
-gulp.task('default', function() {
-  // gulp.src("./assets/*.mustache")
-  //   .pipe(gulp.dest("./dist"));
-  gulp.src('./assets/views/*.html')
-    .pipe(gulp.dest('./public'));
-  gulp.src('./assets/stylesheets/*.sass')
+gulp.task('views',function(){
+  gulp.src(paths.views)
+    .pipe(gulp.dest('./public'))
+    .pipe(reload({ stream: true}));
+})
+
+gulp.task('styles', function() {
+  gulp.src(paths.styles)
     .pipe(sourcemaps.init())
       .pipe(sass())
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('./public/css'));
+    .pipe(gulp.dest('./public/css'))
+    .pipe(reload({ stream:true }));
+});
 
-  gulp.watch([paths.scripts, paths.css], ['default']);
+gulp.task('scripts', function() {
+  gulp.src(paths.scripts)
+    .pipe(uglify())
+    .pipe(gulp.dest('./public/js'))
+    .pipe(reload({ stream: true}));
+});
+
+// watch files for changes and reload
+gulp.task('serve', function() {
+  browserSync({
+    server: {
+      baseDir: 'public'
+    }
+  });
+
+  gulp.watch(paths.views, ['views']);
+  gulp.watch(paths.styles, ['styles']);
+  gulp.watch(paths.scripts, ['scripts']);
 });
