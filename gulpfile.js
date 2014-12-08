@@ -31,7 +31,6 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
   gulp.src(paths.scripts)
-    .pipe(uglify())
     .pipe(gulp.dest('./public/js'))
     .pipe(reload({ stream: true}));
 });
